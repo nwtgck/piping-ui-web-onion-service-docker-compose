@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  piping_ui:
+    build: piping-ui-web
+    restart: always
+    expose:
+      - "8000"
+
+  tor:
+    build: tor-for-piping-ui-web
+    depends_on:
+      - piping_ui
+    restart: always
+    volumes:
+      - ./docker_volumes/tor_hidden_service:/var/lib/tor/hidden_service
+      - ./torrc:/etc/tor/torrc

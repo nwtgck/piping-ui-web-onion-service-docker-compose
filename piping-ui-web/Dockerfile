@@ -15,16 +15,10 @@ RUN npm ci
 RUN npm run build
 
 
-# TODO: Use more proper image
-# Python3
-FROM python:3
+FROM nginx:alpine
+
 LABEL maintainer="Ryo Ota <nwtgck@gmail.com>"
 
-# Make directories
-RUN mkdir -p /app
-# Copy artifact
-COPY --from=build /home/build_user/piping-ui-web/dist /app
-WORKDIR /app
-
-# Run entry (Run the server)
-ENTRYPOINT ["python3", "-m", "http.server"]
+# Copy artifacts
+COPY --from=build /home/build_user/piping-ui-web/dist /var/www
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf

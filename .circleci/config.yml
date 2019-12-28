@@ -1,0 +1,46 @@
+version: 2
+jobs:
+  build:
+    machine:
+      # (base: https://circleci.com/docs/2.0/configuration-reference/#machine)
+      image: ubuntu-1604:201903-01
+    steps:
+      - run:
+          name: Install Tor
+          command: |
+            set -x
+            # (NOTE: Avoid an error, E: Could not get lock /var/lib/apt/lists/lock - open (11: Resource temporarily unavailable))
+            sudo rm -f /var/lib/apt/lists/lock
+            sudo apt update
+            sudo apt install -y apt-transport-https
+            sudo sh -c 'echo "\ndeb https://deb.torproject.org/torproject.org xenial main\ndeb-src https://deb.torproject.org/torproject.org xenial main" >> /etc/apt/sources.list'
+            curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | sudo gpg --import
+            sudo gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+            sudo apt update
+            sudo apt install -y tor deb.torproject.org-keyring
+            tor --version
+      - checkout
+      # Check whether a working-test is successful or not
+      - run:
+          name: Working test
+          command: |
+            set -x
+            # Run tor in background
+            tor &
+            # Build images (to shorten time in docker-compose up)
+            docker-compose build
+
+            # Run server
+            docker-compose up -d
+            # Wait for server running and hidden service spreading
+            # (NOTE: bash loop doesn't sleep well: for sec in $(seq 30 1) ; do  echo "Remaining $sec sec..."; sleep 1; done)
+            ruby -e '120.downto(1){|s| puts "Remaining #{s} sec..."; sleep 1}'
+
+            # Get hidden service host
+            server_host=$(sudo cat docker_volumes/tor_hidden_service/hostname)
+
+            # Get index.html
+            torsocks curl ${server_host}
+
+            # Print server's log
+            docker-compose logs

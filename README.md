@@ -1,4 +1,6 @@
 # piping-ui-web-onion-service-docker-compose
+[![CircleCI](https://circleci.com/gh/nwtgck/piping-ui-web-onion-service-docker-compose.svg?style=shield)](https://circleci.com/gh/nwtgck/piping-ui-web-onion-service-docker-compose)
+
 [Piping UI](https://github.com/nwtgck/piping-ui-web) as [Onion Service](https://2019.www.torproject.org/docs/onion-services.html.en)
 
 ![Piping UI Onion Service](doc_assets/piping-ui-onion-service.gif)

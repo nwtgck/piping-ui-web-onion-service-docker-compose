@@ -1,10 +1,17 @@
 version: '3.1'
 services:
+  # NOTE: Tor Browser doesn't support HTTP/2 over non-SSL
+  # Checked by `torsocks curl -vvv --http2 ...`
+  piping_ui_http2:
+    build: http2-reverse-proxy
+    depends_on:
+      - piping_ui
+    restart: always
+    command: -f 0.0.0.0,80;no-tls -b piping_ui,80
+
   piping_ui:
     build: piping-ui-web
     restart: always
-    expose:
-      - "8000"
 
   tor:
     build: tor-for-piping-ui-web

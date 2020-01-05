@@ -6,6 +6,21 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - run:
+          name: Install curl with HTTP/2
+          command: |
+            # (base https://askubuntu.com/a/884900)
+            set -x
+            cd /tmp
+            sudo apt update
+            sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev
+            wget https://curl.haxx.se/download/curl-7.63.0.tar.gz
+            tar xzf curl-7.63.0.tar.gz
+            cd curl-7.63.0
+            ./configure --with-nghttp2 --prefix=/usr/local --with-ssl
+            make && sudo make install
+            sudo ldconfig
+            curl --version
+      - run:
           name: Install Tor
           command: |
             set -x

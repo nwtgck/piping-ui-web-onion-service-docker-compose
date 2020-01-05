@@ -35,22 +35,25 @@ jobs:
             sudo apt install -y tor deb.torproject.org-keyring
             tor --version
       - checkout
-      # Check whether a working-test is successful or not
       - run:
-          name: Working test
+          name: Run tor in background
+          command: tor &
+      - run:
+          name: Build images (to shorten time in docker-compose up)
+          command: docker-compose build
+      - run:
+          name: Run server
           command: |
-            set -x
-            # Run tor in background
-            tor &
-            # Build images (to shorten time in docker-compose up)
-            docker-compose build
-
+            set -xue
             # Run server
             docker-compose up -d
             # Wait for server running and hidden service spreading
             # (NOTE: bash loop doesn't sleep well: for sec in $(seq 30 1) ; do  echo "Remaining $sec sec..."; sleep 1; done)
             ruby -e '120.downto(1){|s| puts "Remaining #{s} sec..."; sleep 1}'
-
+      - run:
+          name: Working test
+          command: |
+            set -xue
             # Get hidden service host
             server_host=$(sudo cat docker_volumes/tor_hidden_service/hostname)
 
@@ -59,6 +62,6 @@ jobs:
 
             # Get index.html over HTTP/2
             torsocks curl -vvv --http2 ${server_host}
-
-            # Print server's log
-            docker-compose logs
+      - run:
+          name: Print server's log
+          command: docker-compose logs            

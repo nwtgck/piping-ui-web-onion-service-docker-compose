@@ -42,5 +42,8 @@ jobs:
             # Get index.html
             torsocks curl ${server_host}
 
+            # Get index.html over HTTP/2
+            torsocks curl -vvv --http2 ${server_host}
+
             # Print server's log
             docker-compose logs

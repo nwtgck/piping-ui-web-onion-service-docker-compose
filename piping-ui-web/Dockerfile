@@ -1,6 +1,6 @@
 # NOTE: Multi-stage Build
 
-FROM node:12.14-alpine as build
+FROM node:13.6.0-alpine as build
 
 ENV PIPING_UI_WEB_REVISION v0.4.28
 

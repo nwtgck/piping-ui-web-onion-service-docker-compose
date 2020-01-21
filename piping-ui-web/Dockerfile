@@ -2,7 +2,7 @@
 
 FROM node:12.14-alpine as build
 
-ENV PIPING_UI_WEB_REVISION v0.4.31
+ENV PIPING_UI_WEB_REVISION v0.5.0
 
 RUN apk add --no-cache git
 RUN echo -e "build_user\nbuild_user" | adduser build_user

@@ -11,6 +11,7 @@ jobs:
             # (base https://askubuntu.com/a/884900)
             set -x
             cd /tmp
+            # To avoid an error: "E: The repository 'http://dl.google.com/linux/chrome/deb stable InRelease' is not signed."
             # (from: https://askubuntu.com/a/771551/884249)
             wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
             sudo apt update

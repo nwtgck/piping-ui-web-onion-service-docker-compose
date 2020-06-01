@@ -11,6 +11,8 @@ jobs:
             # (base https://askubuntu.com/a/884900)
             set -x
             cd /tmp
+            # (from: https://askubuntu.com/a/771551/884249)
+            wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
             sudo apt update
             sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev
             wget https://curl.haxx.se/download/curl-7.63.0.tar.gz

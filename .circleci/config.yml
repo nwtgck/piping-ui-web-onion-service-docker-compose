@@ -11,7 +11,6 @@ jobs:
             # (base https://askubuntu.com/a/884900)
             set -x
             cd /tmp
-            sudo apt update
             sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev
             wget https://curl.haxx.se/download/curl-7.63.0.tar.gz
             tar xzf curl-7.63.0.tar.gz

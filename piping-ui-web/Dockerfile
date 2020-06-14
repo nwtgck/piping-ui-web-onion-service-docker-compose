@@ -17,7 +17,7 @@ RUN npm run build
 
 FROM nginx:alpine
 
-LABEL maintainer="Ryo Ota <nwtgck@gmail.com>"
+LABEL maintainer="Ryo Ota <nwtgck@nwtgck.org>"
 
 # Copy artifacts
 COPY --from=build /home/build_user/piping-ui-web/dist /var/www

@@ -1,0 +1,41 @@
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: "/tor-for-piping-ui-web"
+  schedule:
+    interval: daily
+    timezone: Asia/Tokyo
+  open-pull-requests-limit: 99
+  reviewers:
+  - nwtgck
+  assignees:
+  - nwtgck
+  ignore:
+  - dependency-name: alpine
+    versions:
+    - 3.13.3
+    - 3.13.4
+- package-ecosystem: docker
+  directory: "/piping-ui-web"
+  schedule:
+    interval: daily
+    timezone: Asia/Tokyo
+  open-pull-requests-limit: 99
+  reviewers:
+  - nwtgck
+  assignees:
+  - nwtgck
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 13.a, < 14"
+  - dependency-name: node
+    versions:
+    - ">= 14.a, < 15"
+  - dependency-name: node
+    versions:
+    - ">= 15.a, < 16"
+  - dependency-name: node
+    versions:
+    - 12.20.2.pre.alpine
+    - 12.22.0.pre.alpine
